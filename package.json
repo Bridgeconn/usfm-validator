@@ -6,12 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sonyzach/usfm-validator.git"
+  },
   "keywords": [
     "USFM",
     "validator",
     "Scriptures"
   ],
-  "author": "Bridgeconn",
+  "author": "Sony Zach sony.z@bridgeconn.com",
   "license": "MIT",
   "dependencies": {
     "event-stream": "^3.3.4"
