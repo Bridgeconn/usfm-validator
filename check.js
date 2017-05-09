@@ -6,12 +6,14 @@ var markerOccurOnce = ["id", "ide", "h", "toc1", "toc2", "toc3", "mt"],
 	markerRepeating = ["p", "c", "v", "s5"];
 
 var temp = [];
+var orderArr = [];
 exports.findMarker = function(lines){	
 	for (var i = 0; i < lines.length; i++) {
 		var marker = lines[i].marker;
 		var line = lines[i];
 		temp.push(marker.split().join(" "))	
 		checkMarker(marker, line);
+
 	}
 	
 	// finding missing markers from comparing markerOccuronce with temp
@@ -62,6 +64,10 @@ function checkMarker(marker, line){
 	       	console.log("http://ubsicap.github.io/usfm/identification/books.html");   	
      	}
 		tag_id ++;
+
+		//make structure order for each markers
+		orderArr.id = markerID
+		// console.log(orderArr)
 	}
 	else if((tag_id == 2)){
 		count = line.count;
@@ -143,11 +149,15 @@ function checkMarker(marker, line){
 
 	//marker \\c check
     if(marker === 'c'){
-        var markerChapter = line.value;
+        var markerC = line.value;
         count = line.count;
-        chapNum.push(markerChapter);
+        chapNum.push(markerC);
         tag_c ++;
         chapterCheck();
+        //part of structure order of markers for C
+        orderArr.c = [];
+        orderArr.c.push.apply(orderArr.c,chapNum);
+        // console.log(orderArr)
     }
 
     //marker \\p check
@@ -155,6 +165,11 @@ function checkMarker(marker, line){
         var markerPara = line.value;
         count = line.count;
         tag_p ++;
+        //part of structure order of markers for p
+        orderArr.c.v = [];
+        orderArr.c.v.push("p")
+        // console.log(orderArr)
+        
     }
 
     //marker \\v check
@@ -164,9 +179,23 @@ function checkMarker(marker, line){
         verseNum.push(markerVerse);
         tag_v ++;
         verseCheck()
+        //part of structure order of markers for v
+        // orderArr.c.v = [];
+        orderArr.c.v.push.apply(orderArr.c.v, verseNum)
+        console.log(orderArr)
     }
 
 }
+
+// structure order of markers
+// [id:MAT,
+// 	[c:1,
+// 		[p,v:1,v:2,v:3]
+// 	],
+// 	[c:2,
+// 		[p,v:1,v:2,v:3]
+// 	]
+// ]
 
 // chapter number order check
 //missing chapter number
