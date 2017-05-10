@@ -6,7 +6,7 @@ var markerOccurOnce = ["id", "ide", "h", "toc1", "toc2", "toc3", "mt"],
 	markerRepeating = ["p", "c", "v", "s5"];
 
 var temp = [];
-var orderArr = [];
+
 exports.findMarker = function(lines){	
 	for (var i = 0; i < lines.length; i++) {
 		var marker = lines[i].marker;
@@ -15,7 +15,6 @@ exports.findMarker = function(lines){
 		checkMarker(marker, line);
 
 	}
-	
 	// finding missing markers from comparing markerOccuronce with temp
 	var missingMarkerOccurOnce = markerOccurOnce.filter(v => temp.indexOf(v) == -1);
 	var missingMarkerRepeating = markerRepeating.filter(v => temp.indexOf(v) == -1);
@@ -49,6 +48,8 @@ var invalid_id = false,
 
 var verseNum = [],
 	chapNum = [];
+
+var orderArr = [];
 
 function checkMarker(marker, line){
 	// console.log(line)
@@ -156,7 +157,7 @@ function checkMarker(marker, line){
         chapterCheck();
         //part of structure order of markers for C
         orderArr.c = [];
-        orderArr.c.push.apply(orderArr.c,chapNum);
+        orderArr.c.push(chapNum);
         // console.log(orderArr)
     }
 
@@ -167,6 +168,9 @@ function checkMarker(marker, line){
         tag_p ++;
         //part of structure order of markers for p
         orderArr.c.v = [];
+        for(i=0; i<orderArr.c.length; i++){
+        	orderArr.c.v.push()
+        }
         orderArr.c.v.push("p")
         // console.log(orderArr)
         
