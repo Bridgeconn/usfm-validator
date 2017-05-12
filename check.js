@@ -13,6 +13,7 @@ exports.findMarker = function(lines){
 		var line = lines[i];
 		temp.push(marker.split().join(" "))	
 		checkMarker(marker, line);
+		ordercheck(line)
 
 	}
 	// finding missing markers from comparing markerOccuronce with temp
@@ -49,7 +50,7 @@ var invalid_id = false,
 var verseNum = [],
 	chapNum = [];
 
-var orderArr = [];
+var book = {};
 
 function checkMarker(marker, line){
 	// console.log(line)
@@ -65,10 +66,7 @@ function checkMarker(marker, line){
 	       	console.log("http://ubsicap.github.io/usfm/identification/books.html");   	
      	}
 		tag_id ++;
-
-		//make structure order for each markers
-		orderArr.id = markerID
-		// console.log(orderArr)
+		book.id = markerID;
 	}
 	else if((tag_id == 2)){
 		count = line.count;
@@ -154,11 +152,7 @@ function checkMarker(marker, line){
         count = line.count;
         chapNum.push(markerC);
         tag_c ++;
-        chapterCheck();
-        //part of structure order of markers for C
-        orderArr.c = [];
-        orderArr.c.push(chapNum);
-        // console.log(orderArr)
+        // chapterCheck();
     }
 
     //marker \\p check
@@ -166,14 +160,6 @@ function checkMarker(marker, line){
         var markerPara = line.value;
         count = line.count;
         tag_p ++;
-        //part of structure order of markers for p
-        orderArr.c.v = [];
-        for(i=0; i<orderArr.c.length; i++){
-        	orderArr.c.v.push()
-        }
-        orderArr.c.v.push("p")
-        // console.log(orderArr)
-        
     }
 
     //marker \\v check
@@ -182,46 +168,61 @@ function checkMarker(marker, line){
         count = line.count;
         verseNum.push(markerVerse);
         tag_v ++;
-        verseCheck()
-        //part of structure order of markers for v
-        // orderArr.c.v = [];
-        orderArr.c.v.push.apply(orderArr.c.v, verseNum)
-        console.log(orderArr)
+        // verseCheck()
     }
 
 }
 
-// structure order of markers
-// [id:MAT,
-// 	[c:1,
-// 		[p,v:1,v:2,v:3]
-// 	],
-// 	[c:2,
-// 		[p,v:1,v:2,v:3]
-// 	]
-// ]
-
-// chapter number order check
-//missing chapter number
-function chapterCheck(){
-    var missing;
-    for(j=1; j <= chapNum.length; j++){
-        if(chapNum[j-1]!= j){
-            missing = j;
-            console.log( "The missing Chapter number is " + missing)
-        }
-    }
-}
-// verse number order check
-//missing verse number
-function verseCheck(){
-	var missing;
-	for(j=1; j <= verseNum.length; j++){
-	    if(verseNum[j-1]!= j){
-	        missing = j;
-	        console.log( "The missing Verse number is " + missing)
-	    }
+var book = {};
+var chap = {};
+var verse = {};
+function ordercheck(line){
+	if(line.marker === 'id'){
+		book.id = line.value.split(" ")[0];
+		console.log(book)
 	}
+	if(line.marker === 'c'){
+		chap.c = line.value;
+		book["c"] = chap
+		console.log(book)
+	}
+	// if(line.marker === 'v'){
+	// 	chap.c.verse =line.number
+	// 	console.log 
+	// }
+
 }
+ 
+// books = {}
+// verse = {}
+// chap = {}
+
+// books["id"] = "MAT"
+// verse["v"] = [1,2,3,4]
+// chap["1"] = verse
+// books["c"] = chap
+
+// // chapter number order check
+// //missing chapter number
+// function chapterCheck(){
+//     var missing;
+//     for(j=1; j <= chapNum.length; j++){
+//         if(chapNum[j-1]!= j){
+//             missing = j;
+//             console.log( "The missing Chapter number is " + missing)
+//         }
+//     }
+// }
+// // verse number order check
+// //missing verse number
+// function verseCheck(){
+// 	var missing;
+// 	for(j=1; j <= verseNum.length; j++){
+// 	    if(verseNum[j-1]!= j){
+// 	        missing = j;
+// 	        console.log( "The missing Verse number is " + missing)
+// 	    }
+// 	}
+// }
 
 
