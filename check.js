@@ -13,7 +13,7 @@ exports.findMarker = function(lines){
 		var line = lines[i];
 		temp.push(marker.split().join(" "))	
 		checkMarker(marker, line);
-		ordercheck(line)
+		// ordercheck(line)
 
 	}
 	// finding missing markers from comparing markerOccuronce with temp
@@ -67,6 +67,7 @@ function checkMarker(marker, line){
      	}
 		tag_id ++;
 		book.id = markerID;
+		ordercheck(line);
 	}
 	else if((tag_id == 2)){
 		count = line.count;
@@ -153,6 +154,7 @@ function checkMarker(marker, line){
         chapNum.push(markerC);
         tag_c ++;
         // chapterCheck();
+        ordercheck(line);
     }
 
     //marker \\p check
@@ -160,6 +162,7 @@ function checkMarker(marker, line){
         var markerPara = line.value;
         count = line.count;
         tag_p ++;
+        ordercheck(line);
     }
 
     //marker \\v check
@@ -169,28 +172,73 @@ function checkMarker(marker, line){
         verseNum.push(markerVerse);
         tag_v ++;
         // verseCheck()
+        ordercheck(line);
     }
 
 }
 
+// var book = {};
+// var chap = {};
+// book.c = [];
+// var verse = {};
+// function ordercheck(line){
+// 	// console.log(line)
+// 	if(line.marker === 'id'){
+// 		book.id = line.value.split(" ")[0];
+// 		// console.log(book)
+// 	}
+	
+// 	// console.log(book)
+// 	if(line.marker === 'c'){
+// 			// console.log(line.value)
+// 			chap = line.value;
+// 			book.c.push(chap);
+// 			// console.log(book)
+// 	}
+// 	if(line.marker === 'p' ){
+// 		var i = 0;
+// 		// for(i=0;i<book.c.length;i++){
+// 			console.log(book.c.length)
+// 			book.c.v = [];
+// 			verse = line.marker;
+// 			// console.log(verse)
+// 			book.c['v'].push(verse)
+// 			// console.log(book)
+// 		// }
+// 	}
+// 	if(line.marker === 'v'){
+// 		book.c.v =[];
+// 		verse = line.number;
+// 		book.c['v'].push(verse)
+// 		// console.log(book);
+// 	}
+// }
 var book = {};
-var chap = {};
+var chapVerse = {};
 var verse = {};
-function ordercheck(line){
-	if(line.marker === 'id'){
-		book.id = line.value.split(" ")[0];
-		console.log(book)
-	}
-	if(line.marker === 'c'){
-		chap.c = line.value;
-		book["c"] = chap
-		console.log(book)
-	}
-	// if(line.marker === 'v'){
-	// 	chap.c.verse =line.number
-	// 	console.log 
-	// }
+var chapter = {}
+var verseArray = []
+var flag = 0
+var currentChap ;
 
+function ordercheck(line){
+if(line.marker === 'id' && flag == 0){
+book["id"] = line.value.split(" ")[0];
+flag +=1;
+}
+if(line.marker === 'c'){
+currentChap = line.value;
+chapter[line.value] = line.value;
+}
+if(line.marker === 'v'){
+verseArray.push(line.number);
+}
+
+chapter[currentChap] = verseArray;
+// currentChap = 0
+verseArray = []
+book["c"] = chapter
+console.log(book)
 }
  
 // books = {}
