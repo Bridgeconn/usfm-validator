@@ -188,22 +188,19 @@ function ordercheck(line){
 		book["id"] = line.value.split(" ")[0];
 		flag +=1;
 	}
-
 	if(line.marker === 'c'){
 		currentChap = line.value;
 		chapter[line.value] = line.value;
+		verseArray = [];
 	}
-	
 	if(line.marker === 'v'){
 		verseArray.push(line.number);
 	}
 	chapter[currentChap] = verseArray;
-	// // currentChap = 0
-	// verseArray = []
-	book["c"] = chapter
-	// console.log(chapter)
-	console.log(book)
+	book["c"] = chapter;
+	console.log(book);	
 }
+
 
 // chapter number order check
 //missing chapter number
