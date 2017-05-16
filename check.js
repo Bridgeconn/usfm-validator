@@ -67,7 +67,7 @@ function checkMarker(marker, line){
      	}
 		tag_id ++;
 		book.id = markerID;
-		ordercheck(line);
+		// ordercheck(line);
 	}
 	else if((tag_id == 2)){
 		count = line.count;
@@ -153,7 +153,7 @@ function checkMarker(marker, line){
         count = line.count;
         chapNum.push(markerC);
         tag_c ++;
-        // chapterCheck();
+        chapterCheck();
         ordercheck(line);
     }
 
@@ -177,100 +177,43 @@ function checkMarker(marker, line){
 
 }
 
-// var book = {};
-// var chap = {};
-// book.c = [];
-// var verse = {};
-// function ordercheck(line){
-// 	// console.log(line)
-// 	if(line.marker === 'id'){
-// 		book.id = line.value.split(" ")[0];
-// 		// console.log(book)
-// 	}
-	
-// 	// console.log(book)
-// 	if(line.marker === 'c'){
-// 			// console.log(line.value)
-// 			chap = line.value;
-// 			book.c.push(chap);
-// 			// console.log(book)
-// 	}
-// 	if(line.marker === 'p' ){
-// 		var i = 0;
-// 		// for(i=0;i<book.c.length;i++){
-// 			console.log(book.c.length)
-// 			book.c.v = [];
-// 			verse = line.marker;
-// 			// console.log(verse)
-// 			book.c['v'].push(verse)
-// 			// console.log(book)
-// 		// }
-// 	}
-// 	if(line.marker === 'v'){
-// 		book.c.v =[];
-// 		verse = line.number;
-// 		book.c['v'].push(verse)
-// 		// console.log(book);
-// 	}
-// }
 var book = {};
-var chapVerse = {};
-var verse = {};
-var chapter = {}
-var verseArray = []
-var flag = 0
-var currentChap ;
+var chapter = {};
+var flag = 0;
+var currentChap;
+var verseArray = [];
 
 function ordercheck(line){
-if(line.marker === 'id' && flag == 0){
-book["id"] = line.value.split(" ")[0];
-flag +=1;
-}
-if(line.marker === 'c'){
-currentChap = line.value;
-chapter[line.value] = line.value;
-}
-if(line.marker === 'v'){
-verseArray.push(line.number);
+	if(line.marker === 'id' && flag == 0){
+		book["id"] = line.value.split(" ")[0];
+		flag +=1;
+	}
+
+	if(line.marker === 'c'){
+		currentChap = line.value;
+		chapter[line.value] = line.value;
+	}
+	
+	if(line.marker === 'v'){
+		verseArray.push(line.number);
+	}
+	chapter[currentChap] = verseArray;
+	// // currentChap = 0
+	// verseArray = []
+	book["c"] = chapter
+	// console.log(chapter)
+	console.log(book)
 }
 
-chapter[currentChap] = verseArray;
-// currentChap = 0
-verseArray = []
-book["c"] = chapter
-console.log(book)
+// chapter number order check
+//missing chapter number
+function chapterCheck(){
+    var missing;
+    for(j=1; j <= chapNum.length; j++){
+        if(chapNum[j-1]!= j){
+            missing = j;
+            console.log( "The missing Chapter number is " + missing)
+        }
+    }
 }
- 
-// books = {}
-// verse = {}
-// chap = {}
-
-// books["id"] = "MAT"
-// verse["v"] = [1,2,3,4]
-// chap["1"] = verse
-// books["c"] = chap
-
-// // chapter number order check
-// //missing chapter number
-// function chapterCheck(){
-//     var missing;
-//     for(j=1; j <= chapNum.length; j++){
-//         if(chapNum[j-1]!= j){
-//             missing = j;
-//             console.log( "The missing Chapter number is " + missing)
-//         }
-//     }
-// }
-// // verse number order check
-// //missing verse number
-// function verseCheck(){
-// 	var missing;
-// 	for(j=1; j <= verseNum.length; j++){
-// 	    if(verseNum[j-1]!= j){
-// 	        missing = j;
-// 	        console.log( "The missing Verse number is " + missing)
-// 	    }
-// 	}
-// }
-
 
