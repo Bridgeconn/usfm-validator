@@ -1,11 +1,21 @@
 var getUsfm = require('./getUsfm.js');
-
-var result = [];
+// console.log(getUsfm.results)
 
 var markerOccurOnce = ["id", "ide", "h", "toc1", "toc2", "toc3", "mt"],
 	markerRepeating = ["p", "c", "v", "s5"];
 
 var temp = [];
+
+exports.showResult = function(results){
+	if(results.length !== 0){
+		console.log(results[0])
+    	return false;	
+	}
+    else{
+    	console.log("true###############################")
+        return true;
+    }
+}
 
 exports.findMarker = function(lines){	
 	for (var i = 0; i < lines.length; i++) {
@@ -21,6 +31,7 @@ exports.findMarker = function(lines){
 	var missingMarkerRepeating = markerRepeating.filter(v => temp.indexOf(v) == -1);
 	var missingMarkersArr = missingMarkerOccurOnce.concat(missingMarkerRepeating);
 	if(missingMarkersArr.length == 1){
+		// results.push("Error: Missing markers from the given files is "+missingMarkersArr)
 		console.log("Error: Missing markers from the given files is "+missingMarkersArr)
 	}
 	else if(missingMarkersArr.length > 1){
@@ -182,9 +193,12 @@ var chapter = {};
 var flag = 0;
 var currentChap;
 var verseArray = [];
+var structure = [];
 
 function ordercheck(line){
 	if(line.marker === 'id' && flag == 0){
+		console.log(line.marker)
+		structure.push('id');
 		book["id"] = line.value.split(" ")[0];
 		flag +=1;
 	}
@@ -192,13 +206,19 @@ function ordercheck(line){
 		currentChap = line.value;
 		chapter[line.value] = line.value;
 		verseArray = [];
+		structure.push('c');
+	}
+	if(line.marker === 'p'){
+		structure.push('p');
 	}
 	if(line.marker === 'v'){
 		verseArray.push(line.number);
+		structure.push('v');
 	}
 	chapter[currentChap] = verseArray;
 	book["c"] = chapter;
-	console.log(book);	
+	// console.log(book);	
+	// console.log(structure)
 }
 
 

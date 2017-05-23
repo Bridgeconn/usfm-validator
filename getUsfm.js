@@ -3,9 +3,10 @@ var fs = require('fs')
   , stream = require('stream')
   , es = require('event-stream');
 
-var check = require('./check.js')
+var check = require('./check.js');
 
 function getUsfmInput(input){
+  var results = [];
 
   var lines = [];
   var count = 0;
@@ -17,7 +18,8 @@ function getUsfmInput(input){
       var firstChar = line.trim().split('')[0];
 
       if(firstChar !== "\\" && firstChar !== undefined){
-          console.log("Generally, SFMs start with a backslash character \\ , but is not found in line "+ count+".")
+          results.push("Generally, SFMs start with a backslash character \\ , but is not found in line "+ count+".");
+          // console.log("Generally, SFMs start with a backslash character \\ , but is not found in line "+ count+".")
       }
       else{
     
@@ -74,7 +76,8 @@ function getUsfmInput(input){
     .on('end', function(){
       // usfmValidate.Validate(lines)
       check.findMarker(lines)
-      // console.log(lines)
+      check.showResult(results);
+      
     })
     );
 }
